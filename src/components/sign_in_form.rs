@@ -26,13 +26,23 @@ pub fn SignInForm() -> Html {
         spawn_local(async {
             let url = format!("/api/v1/auth/signin");
             let mut opts = RequestInit::new();
-            opts.method("GET");
+            opts.method("POST");
             opts.mode(RequestMode::Cors);
+
+            let v = r#"
+                {
+                    "email": "test@example.com"
+                }
+            "#;
+            let jsv = JsValue::from_str(v);
+            opts.body(Some(&jsv));
             let request = Request::new_with_str_and_init(&url, &opts).unwrap();
 
             request
                 .headers()
                 .set("Accept", "application/vnd.github.v3+json");
+
+            println!("{request:?}");
 
             let window = web_sys::window().unwrap();
             let resp_value = JsFuture::from(window.fetch_with_request(&request)).await;

@@ -2,3 +2,5 @@
 .github/
 /dist/
 /target/
+
+Cargo.lock
