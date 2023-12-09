@@ -1,4 +1,4 @@
-use log::info;
+use log::{debug, info, trace};
 use web_sys::EventTarget;
 use yew::events::SubmitEvent;
 use yew::prelude::*;
@@ -8,7 +8,7 @@ use serde_json::json;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::spawn_local;
 use wasm_bindgen_futures::JsFuture;
-use web_sys::{HtmlInputElement, Request, RequestInit, RequestMode};
+use web_sys::{HtmlInputElement, Request, RequestInit, RequestMode, Response};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SignInData {
@@ -36,16 +36,11 @@ pub fn SignInForm() -> Html {
                 let request = Request::new_with_str_and_init(&url, &opts).unwrap();
 
                 let _ = request.headers().append("Accept", "application/json");
-
-                println!("{request:?}");
-
                 let window = web_sys::window().unwrap();
                 let resp_value = JsFuture::from(window.fetch_with_request(&request)).await;
+                let resp: Response = resp_value.unwrap().dyn_into().unwrap();
+                debug!("{:?}", resp.status());
 
-                // // `resp_value` is a `Response` object.
-                // assert!(resp_value.is_instance_of::<Response>());
-                // let resp: Response = resp_value.dyn_into().unwrap();
-                //
                 // // Convert this other `Promise` into a rust `Future`.
                 // let json = JsFuture::from(resp.json()?).await?;
                 // info!("{json:?}");
@@ -53,19 +48,9 @@ pub fn SignInForm() -> Html {
         })
     };
 
-    let on_change_email = {
-        let input_email = input_email.clone();
-        Callback::from(move |e: InputEvent| {
-            if let Some(input) = input_email.cast::<HtmlInputElement>() {
-                let value = input.value();
-                info!("{e:?}");
-            }
-        })
-    };
-
     html! {
         <form onsubmit={on_submit}>
-            <input name="email" ref={input_email.clone()} oninput={on_change_email} />
+            <input name="email" ref={input_email.clone()} />
 
             <button>{ "Отправить" }</button>
         </form>
