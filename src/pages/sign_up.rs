@@ -1,12 +1,12 @@
 use yew::prelude::*;
 
-use crate::components::sign_in_form::SignInForm;
+use crate::components::sign_up_form::SignUpForm;
 
 #[function_component]
 pub fn SignUp() -> Html {
     html! {
         <div>
-            <SignInForm></SignInForm>
+            <SignUpForm></SignUpForm>
         </div>
     }
 }
