@@ -24,8 +24,7 @@ impl Auth {
         let _ = request.headers().append("Accept", "application/json");
         let window = web_sys::window().unwrap();
         let resp_value = JsFuture::from(window.fetch_with_request(&request)).await;
-        let resp: Response = resp_value.unwrap().dyn_into().unwrap();
-        debug!("{:?}", resp.status());
+        let resp: Response = resp_value.unwrap().into();
 
         resp
     }

@@ -1,4 +1,4 @@
-use log::{debug, info, trace};
+use log::debug;
 use web_sys::EventTarget;
 use yew::events::SubmitEvent;
 use yew::prelude::*;
