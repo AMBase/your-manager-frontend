@@ -2,12 +2,14 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use super::router::{switch, Route};
+use crate::api::auth::Auth;
 use crate::api::Api;
 
 #[function_component(App)]
 pub fn app() -> Html {
     let ctx = use_state(|| Api {
         host: "http://localhost:8000".to_string(),
+        auth: Auth::new(),
     });
 
     html! {
