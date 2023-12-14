@@ -2,6 +2,7 @@ use crate::api::Api;
 use log::debug;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen_futures::spawn_local;
+use web_sys::console::debug;
 use web_sys::EventTarget;
 use web_sys::HtmlInputElement;
 use yew::events::SubmitEvent;
@@ -28,10 +29,7 @@ pub fn SignUpForm() -> Html {
             let target: EventTarget = e.target().unwrap();
             let email_value = input_email.cast::<HtmlInputElement>().unwrap().value();
 
-            spawn_local(async move {
-                let resp = api.auth.sign_up(email_value).await;
-                debug!("{:?}", resp);
-            });
+            spawn_local(api.auth.sign_up(email_value));
         })
     };
 
