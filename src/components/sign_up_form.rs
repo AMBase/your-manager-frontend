@@ -27,9 +27,13 @@ pub fn SignUpForm() -> Html {
             e.prevent_default();
             let api = api.clone();
             let target: EventTarget = e.target().unwrap();
-            let email_value = input_email.cast::<HtmlInputElement>().unwrap().value();
+            let input: HtmlInputElement = input_email.cast().unwrap();
+            let email_value = input.value();
 
-            spawn_local(api.auth.sign_up(email_value));
+            spawn_local(async move {
+                api.auth.sign_up(email_value).await;
+                input.set_value("");
+            });
         })
     };
 
