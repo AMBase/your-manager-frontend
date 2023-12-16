@@ -11,7 +11,7 @@ impl Auth {
     pub fn new() -> Self {
         Self {}
     }
-    pub async fn sign_up(self, email_value: String) -> () {
+    pub async fn sign_up(self, email_value: String) -> Response {
         let url = format!("/api/v1/auth/signin");
         let mut opts = RequestInit::new();
         opts.method("POST");
@@ -25,5 +25,7 @@ impl Auth {
         let window = web_sys::window().unwrap();
         let resp_value = JsFuture::from(window.fetch_with_request(&request)).await;
         let resp: Response = resp_value.unwrap().into();
+
+        resp
     }
 }
