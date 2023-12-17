@@ -42,7 +42,7 @@ pub fn SignUpForm() -> Html {
                 input.set_value("");
 
                 match resp.status() {
-                    200 | 201 => navigator.push(&Route::Home),
+                    200 | 201 | 405 => navigator.push(&Route::SignUpSuccess),
                     _ => debug!(""),
                 }
             });
