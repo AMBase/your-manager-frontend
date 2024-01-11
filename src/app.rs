@@ -8,7 +8,7 @@ use crate::api::Api;
 #[function_component(App)]
 pub fn app() -> Html {
     let ctx = use_state(|| Api {
-        host: "http://localhost:8000".to_string(),
+        host: "http://localhost:8080".to_string(),
         auth: Auth::new(),
     });
 
