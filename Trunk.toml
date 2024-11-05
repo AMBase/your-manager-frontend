@@ -1,3 +1,7 @@
+[build]
+target = "public/index.html"
+dist = "dist"
+
 [serve]
 # The address to serve on LAN.
 address = "127.0.0.1"
